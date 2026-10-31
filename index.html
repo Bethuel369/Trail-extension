@@ -75,7 +75,7 @@ nav ul a:hover{color:var(--coral)}
 /* Hero */
 .hero{position:relative;min-height:min(92vh,780px);overflow:hidden;background:#F7B58C;display:flex;align-items:center}
 .scene{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.hero-copy{position:relative;z-index:2;padding:60px 0 80px;color:var(--plum)}
+.hero-copy{position:relative;z-index:2;width:100%;padding:60px 24px 80px;color:var(--plum)}
 .pill-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(255,255,255,0.7);backdrop-filter:blur(6px);border:1.5px solid var(--plum);border-radius:999px;font:700 12px var(--f);letter-spacing:.05em;text-transform:uppercase;color:var(--plum);margin-bottom:20px}
 .pill-dot{width:8px;height:8px;border-radius:50%;background:var(--coral);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(0.8)}}
@@ -83,7 +83,7 @@ nav ul a:hover{color:var(--coral)}
 .hero h1 span{color:var(--coral);display:inline-block}
 .hero p{max-width:32em;font-size:20px;color:#4A2F4F;line-height:1.5}
 .cta{display:flex;flex-wrap:wrap;align-items:center;gap:18px;margin-top:32px}
-.note{margin-top:16px;font-size:13px;color:#5A3D5E;display:flex;align-items:center;gap:8px}
+.note{margin-top:16px;font-size:13px;font-weight:500;color:#3E2545;display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px}
 
 /* Sections */
 section{padding:90px 0}
@@ -136,14 +136,17 @@ h2{font-size:clamp(30px,4.5vw,52px);margin-bottom:14px;max-width:14em}
 .pg-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .pg-panel{display:flex;flex-direction:column;gap:10px}
 .pg-panel-head{display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700;color:#CDBFD7;letter-spacing:.04em}
-.pg-textarea{width:100%;min-height:260px;padding:16px;border-radius:16px;background:#251936;color:var(--cream);border:2px solid #4D3564;font:14px/1.6 var(--b);resize:vertical;outline:none;transition:border-color .2s}
+.pg-textarea{width:100%;height:340px;padding:16px;border-radius:16px;background:#251936;color:var(--cream);border:2px solid #4D3564;font:14px/1.6 var(--b);resize:none;outline:none;transition:border-color .2s}
 .pg-textarea:focus{border-color:var(--coral)}
-.pg-result{width:100%;min-height:260px;padding:16px;border-radius:16px;background:#140C1F;color:#FFE9D2;border:2px solid #5C3D78;font:13px/1.65 var(--m);white-space:pre-wrap;overflow-y:auto;position:relative}
+.pg-result{width:100%;height:340px;padding:16px;border-radius:16px;background:#140C1F;color:#FFE9D2;border:2px solid #5C3D78;font:13px/1.65 var(--m);white-space:pre-wrap;overflow-y:auto;position:relative}
 
 /* Optional API drawer */
-.pg-api-details{margin-top:20px;border:1.5px solid rgba(255,255,255,0.12);border-radius:16px;background:rgba(36,26,51,0.6);padding:14px 18px}
+.pg-api-details{max-width:none;margin-top:20px;border:1.5px solid rgba(255,255,255,0.12);border-radius:16px;background:rgba(36,26,51,0.6);padding:14px 18px}
 .pg-api-details summary{color:var(--peach);font:700 13px var(--f);cursor:pointer;display:flex;align-items:center;justify-content:space-between;outline:none}
 .pg-api-details summary::-webkit-details-marker{display:none}
+.pg-api-details summary::after{display:none}
+.pg-api-details summary{padding:0;gap:16px;letter-spacing:0}
+.pg-api-details[open]{background:rgba(36,26,51,0.85)}
 .pg-api-drawer{margin-top:14px;display:flex;flex-direction:column;gap:10px}
 .pg-api-drawer p{font-size:13px;color:#CDBFD7}
 .pg-api-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
@@ -152,7 +155,13 @@ h2{font-size:clamp(30px,4.5vw,52px);margin-bottom:14px;max-width:14em}
 .pg-key-link{font-size:13px;color:var(--peach);font-weight:700;text-decoration:none}
 .pg-key-link:hover{text-decoration:underline}
 
-.pg-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-top:22px}
+.pg-bottom{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-top:24px;padding-top:22px;border-top:1px solid rgba(255,255,255,0.1)}
+.pg-actions{display:flex;gap:12px;flex-wrap:wrap}
+.pg-status{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.playground-section .lead{color:#D5C6E0}
+.pg-bottom .btn{padding:11px 18px}
+.pg-bottom .token-badge{padding:7px 14px;font-size:12px}
+.pg-bottom .engine-indicator{font-size:11px}
 .token-badge{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;border-radius:999px;background:#2D1B44;border:1.5px solid #6F4892;font-size:13px;color:var(--cream)}
 .token-badge b{color:var(--coral)}
 .engine-indicator{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,0.06);color:#FFE4CC;border:1px solid rgba(255,255,255,0.12)}
@@ -203,6 +212,27 @@ footer img{height:38px}
   section{padding:64px 0}
   .hero-copy{padding-top:40px}
   .playground-box{padding:20px}
+  .hero-copy{padding:40px 24px 64px}
+  .pg-textarea,.pg-result{height:260px}
+}
+@media(max-width:560px){
+  .nav-actions .btn-secondary{display:none}
+  nav .nav-brand img{height:32px}
+  .btn-lg{padding:16px 26px;font-size:16px}
+  .hero p{font-size:18px}
+  .mockup-button-row{flex-wrap:wrap;gap:8px}
+  .note{font-size:0;flex-direction:column;align-items:flex-start;gap:6px}
+  .note span{font-size:13px}
+  .hero-copy{padding-bottom:110px}
+  .pg-controls{width:100%}
+  .pg-select{width:100%}
+  .pg-top{flex-direction:column;align-items:flex-start}
+  .pg-actions,.pg-actions .btn{width:100%}
+  .pg-bottom{flex-direction:column;align-items:stretch}
+  .pg-api-details summary{flex-direction:column;align-items:flex-start;gap:6px}
+  .pg-api-input{min-width:0;width:100%}
+  .showcase-grid .mockup-popup-box{box-shadow:5px 5px 0 var(--coral)}
+  .mockup-window{box-shadow:5px 5px 0 var(--ink)}
 }
 @media(prefers-reduced-motion:reduce){
   *,::before,::after{transition-duration:.01ms!important;scroll-behavior:auto!important}
@@ -396,6 +426,21 @@ footer img{height:38px}
         </div>
       </div>
 
+      <div class="pg-bottom">
+        <div class="pg-actions">
+          <button type="button" class="btn" id="pgRunBtn">Optimize Prompt ↗</button>
+          <button type="button" class="btn btn-secondary" id="pgCopyBtn">Copy Structured Prompt ⎘</button>
+        </div>
+        <div class="pg-status">
+          <div class="token-badge" id="tokenDeltaBadge">
+            <span>⚡ Token Efficiency: <b id="tokenDeltaText">+75 tokens structured for precision</b></span>
+          </div>
+          <div class="engine-indicator" id="engineBadge">
+            <span class="dot"></span> <span id="engineBadgeText">Trail Smart Heuristic Compiler</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Optional Groq AI Connection -->
       <details class="pg-api-details">
         <summary>
@@ -410,21 +455,6 @@ footer img{height:38px}
           </div>
         </div>
       </details>
-
-      <div class="pg-bottom">
-        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-          <div class="token-badge" id="tokenDeltaBadge">
-            <span>⚡ Token Efficiency: <b id="tokenDeltaText">+75 tokens structured for precision</b></span>
-          </div>
-          <div class="engine-indicator" id="engineBadge">
-            <span class="dot"></span> <span id="engineBadgeText">Trail Smart Heuristic Compiler</span>
-          </div>
-        </div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <button type="button" class="btn" id="pgRunBtn">Optimize Prompt ↗</button>
-          <button type="button" class="btn btn-secondary" id="pgCopyBtn">Copy Structured Prompt ⎘</button>
-        </div>
-      </div>
     </div>
   </div>
 </section>
@@ -438,25 +468,25 @@ footer img{height:38px}
     <div class="demo">
       <div class="card">
         <small>Raw Thought</small>
-        <p class="raw">"make a script to clean missing values in pandas"</p>
-        <div style="margin-top:16px;font-size:12px;color:var(--muted)">⚠️ Vague, no data specifics, unconstrained return types</div>
+        <p class="raw">"make a rate limiter middleware for express"</p>
+        <div style="margin-top:16px;font-size:12px;color:var(--muted)">⚠️ Vague: no limits, storage backend, or error behavior specified</div>
       </div>
       <div class="mid" aria-hidden="true">→</div>
       <div class="card out">
-        <small>Trail Optimized Prompt (Data Science Preset)</small>
+        <small>Trail Optimized Prompt (Software Engineering Preset)</small>
 <pre>### ROLE
-Lead Data Scientist and Quantitative Python Architect with specialization in pandas &amp; NumPy.
+Senior Node.js backend engineer experienced in Express and API security.
 
 ### TASK
-Architect and implement a production-grade routine to detect, audit, and clean missing values in a pandas DataFrame.
-1. Quantify sparsity and column-wise null distributions.
-2. Implement configurable imputation (median/mean, mode) and conditional threshold row drops.
-3. Return the sanitized DataFrame and an audit summary report of all modifications.
+Implement an Express rate-limiting middleware with a configurable window and request cap per client.
+1. Identify clients by IP, or by API key when present.
+2. Support an in-memory store with a pluggable Redis adapter.
+3. Return HTTP 429 with a Retry-After header and standard RateLimit-* headers.
 
 ### CONSTRAINTS &amp; CONTEXT
-- Prefer vectorized operations over iterative `.iterrows()` loops.
-- Enforce strict type hints and follow PEP 8 standards.
-- Guard against mixed dtype coercion and excessive memory overhead.</pre>
+- Use atomic operations so concurrent requests cannot race.
+- Handle proxies correctly (trust-proxy aware) and fail open if the store is down.
+- Include error handling, logging hooks, and Jest test stubs.</pre>
       </div>
     </div>
     <p class="fine">💡 Engineered specifically for ChatGPT &amp; Gemini input formatting and Groq inference endpoints.</p>
@@ -826,6 +856,8 @@ function smartOptimize(raw, domainKey) {
 }
 
 // ── Real Groq API Request ────────────────────────────────────────────────────
+const TRAIL_WEB_GROQ_MODEL = "openai/gpt-oss-20b"; // keep in sync with trail/shared.js
+
 async function requestGroq(rawInput, domainKey, apiKey) {
   const d = DOMAIN_DATA[domainKey] || DOMAIN_DATA.general;
   const endpoint = "https://api.groq.com/openai/v1/chat/completions";
@@ -837,12 +869,13 @@ async function requestGroq(rawInput, domainKey, apiKey) {
       "Authorization": `Bearer ${apiKey.trim()}`
     },
     body: JSON.stringify({
-      model: "llama-3.3-70b-versatile",
+      model: TRAIL_WEB_GROQ_MODEL,
       messages: [
         { role: "system", content: d.instruction },
         { role: "user", content: `Rewrite the following raw input as an optimized prompt. Do not answer it.\n\n<raw_input>\n${rawInput}\n</raw_input>` }
       ],
-      max_completion_tokens: 1500,
+      max_completion_tokens: 2048,
+      reasoning_effort: "low",
       temperature: 0.3
     })
   });
