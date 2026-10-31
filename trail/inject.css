@@ -1,0 +1,59 @@
+/* Trail – styles injected into ChatGPT / Gemini (button + toast).
+   Matches the popup: ink pill, coral hard shadow, colour-sweep hover. */
+
+.trail-inject-btn {
+  --trail-ink: #241A33; --trail-cream: #FFF4E6; --trail-coral: #F0654B; --trail-peach: #FFC9A0;
+  position: relative; isolation: isolate; overflow: hidden; z-index: 9998;
+  display: inline-flex; align-items: center; gap: 8px; margin: 9px 0;
+  padding: 7px 8px 7px 14px;
+  color: var(--trail-cream); background: var(--trail-ink);
+  border: 2px solid var(--trail-ink); border-radius: 999px;
+  font: 700 12px/1.2 "Suisse Int'l", Inter, "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  letter-spacing: .01em; white-space: nowrap; cursor: pointer; user-select: none;
+  box-shadow: 3px 3px 0 var(--trail-coral);
+  transition: color .2s ease, transform .15s ease, box-shadow .15s ease;
+}
+.trail-inject-btn::after {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+  background: var(--trail-coral); transform: translateY(101%);
+  transition: transform .2s cubic-bezier(.2, .7, .2, 1);
+}
+.trail-inject-btn:hover { color: var(--trail-ink); }
+.trail-inject-btn:hover::after { transform: translateY(0); }
+.trail-inject-btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--trail-coral); }
+.trail-inject-btn:focus-visible { outline: 3px solid var(--trail-coral); outline-offset: 2px; }
+
+.trail-inject-btn .trail-domain-pill {
+  display: inline-block; padding: 3px 9px;
+  color: var(--trail-ink); background: var(--trail-peach); border-radius: 999px;
+  font-size: 10px; font-weight: 700; letter-spacing: .02em;
+}
+
+/* loading */
+.trail-inject-btn.loading { pointer-events: none; padding-right: 14px; }
+.trail-inject-btn.loading::before {
+  content: ""; width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid rgba(255, 244, 230, .3); border-top-color: var(--trail-coral);
+  animation: trailSpin .7s linear infinite;
+}
+@keyframes trailSpin { to { transform: rotate(360deg); } }
+
+/* toast */
+.trail-toast {
+  position: fixed; right: 24px; bottom: 24px; z-index: 99999;
+  display: flex; align-items: center; gap: 8px; padding: 10px 16px;
+  color: #241A33; background: #FFF4E6;
+  border: 2px solid #241A33; border-radius: 14px; box-shadow: 4px 4px 0 #F0654B;
+  font: 700 12px/1.35 "Suisse Int'l", Inter, "Helvetica Neue", Helvetica, Arial, system-ui, sans-serif;
+  pointer-events: none; animation: trailToastIn .25s ease-out both;
+}
+.trail-toast .toast-icon { font-size: 15px; }
+.trail-toast .toast-gain { color: #1F7A55; }
+.trail-toast .toast-loss { color: #C2331B; }
+.trail-toast.hiding { animation: trailToastOut .2s ease both; }
+@keyframes trailToastIn  { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes trailToastOut { to   { opacity: 0; transform: translateY(6px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}

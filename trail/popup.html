@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trail – Prompt Optimizer</title>
+  <meta name="description" content="Transform sloppy AI prompt drafts into structured, token-efficient inputs.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Hero: flat illustrated Yosemite sunset -->
+  <section class="hero" aria-label="Trail">
+    <svg class="scene" viewBox="0 0 390 190" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#EE8F7E"/>
+          <stop offset=".55" stop-color="#F7B58C"/>
+          <stop offset="1" stop-color="#FFDDB0"/>
+        </linearGradient>
+        <radialGradient id="glow">
+          <stop offset="0" stop-color="#FFF3CF" stop-opacity=".95"/>
+          <stop offset="1" stop-color="#FFF3CF" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="mist" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FFD9B0" stop-opacity="0"/>
+          <stop offset=".6" stop-color="#FFD9B0" stop-opacity=".5"/>
+          <stop offset="1" stop-color="#FFD9B0" stop-opacity="0"/>
+        </linearGradient>
+        <symbol id="pine" viewBox="0 0 24 44">
+          <polygon points="12,0 19,14 15.5,14 22,27 17.5,27 24,40 13.5,40 13.5,44 10.5,44 10.5,40 0,40 6.5,27 2,27 8.5,14 5,14"/>
+        </symbol>
+      </defs>
+
+      <rect width="390" height="190" fill="url(#sky)"/>
+
+      <g class="l-sun">
+        <circle cx="302" cy="108" r="62" fill="url(#glow)"/>
+        <circle cx="302" cy="108" r="24" fill="#FFF1C9"/>
+      </g>
+
+      <g class="l-clouds" fill="#FFE9D2" opacity=".75">
+        <rect x="248" y="26" width="76" height="8" rx="4"/>
+        <rect x="266" y="39" width="48" height="7" rx="3.5"/>
+        <rect x="336" y="62" width="44" height="7" rx="3.5"/>
+      </g>
+
+      <!-- far ridge with a Half Dome-style summit -->
+      <g class="l-far">
+        <path fill="#D1768A" d="M-10 150 L-10 128 L30 118 L62 124 L92 108 L118 112 L132 84 Q150 62 176 76 L184 80 L186 112 L214 120 L250 112 L290 124 L330 116 L400 128 L400 190 L-10 190Z"/>
+      </g>
+
+      <!-- mid ridge with an El Capitan-style wall -->
+      <g class="l-mid">
+        <path fill="#9A5578" d="M-10 160 L-10 146 L40 138 L78 148 L110 136 L150 144 L196 132 L214 98 L222 92 L262 90 L268 98 L272 134 L310 140 L350 132 L400 142 L400 190 L-10 190Z"/>
+      </g>
+
+      <rect y="122" width="390" height="40" fill="url(#mist)"/>
+
+      <g class="l-near">
+        <path fill="#4A3768" d="M-10 172 L-10 156 Q60 138 120 156 T250 154 T400 150 L400 190 L-10 190Z"/>
+      </g>
+
+      <g class="l-forest" fill="#2A1F3F">
+        <rect x="-10" y="180" width="410" height="10"/>
+        <use href="#pine" x="-6"  y="146" width="26" height="48"/>
+        <use href="#pine" x="14"  y="156" width="20" height="38"/>
+        <use href="#pine" x="30"  y="150" width="24" height="44"/>
+        <use href="#pine" x="96"  y="164" width="16" height="30"/>
+        <use href="#pine" x="170" y="168" width="14" height="26"/>
+        <use href="#pine" x="296" y="162" width="18" height="32"/>
+        <use href="#pine" x="338" y="150" width="24" height="44"/>
+        <use href="#pine" x="358" y="142" width="28" height="52"/>
+        <use href="#pine" x="376" y="156" width="20" height="38"/>
+      </g>
+    </svg>
+
+    <div class="hero-inner">
+      <header class="brand-row">
+        <div class="brand-lockup">
+          <img class="brand-mark" src="icons/icon-48.png" alt="">
+          <span class="brand-name">Trail</span>
+        </div>
+        <span class="tagline">PROMPT OPTIMIZER · V0.4</span>
+      </header>
+      <h1>A clearer path<br>to better prompts.</h1>
+    </div>
+  </section>
+
+  <main class="container">
+
+    <!-- 01 Raw input -->
+    <section class="field">
+      <div class="field-head">
+        <span class="step">01</span>
+        <label for="rawPrompt">Raw draft</label>
+        <span class="hint">20,000 chars max</span>
+      </div>
+      <textarea id="rawPrompt" maxlength="20000" placeholder="e.g., make a script to clean missing values in pandas"></textarea>
+    </section>
+
+    <!-- 02 Domain + optimize -->
+    <section class="field">
+      <div class="field-head">
+        <span class="step">02</span>
+        <label for="domainSelect">Domain</label>
+      </div>
+      <div class="controls">
+        <select id="domainSelect" title="Select optimization domain">
+          <option value="general">General / Default</option>
+          <option value="data_science">Data Science &amp; Python</option>
+          <option value="software_engineering">Software Engineering</option>
+          <option value="quant_finance">Quantitative Finance</option>
+          <option value="machine_learning">Machine Learning &amp; MLOps</option>
+          <option value="technical_writing">Technical Writing &amp; Docs</option>
+          <option value="cybersecurity">Cybersecurity</option>
+          <option value="product_management">Product Management</option>
+          <option value="business_strategy">Business &amp; Strategy</option>
+          <option value="education_research">Education &amp; Research</option>
+          <option value="creative_writing">Creative Writing</option>
+        </select>
+        <button id="optimizeBtn" type="button">Optimize ↗</button>
+      </div>
+      <span id="statusMsg" role="status" aria-live="polite"></span>
+    </section>
+
+    <!-- 03 Output -->
+    <section class="field output-group">
+      <div class="field-head">
+        <span class="step">03</span>
+        <label for="structuredPrompt">Structured prompt</label>
+        <button id="copyBtn" class="secondary-btn" type="button">Copy ⎘</button>
+      </div>
+      <textarea id="structuredPrompt" readonly placeholder="Your optimized prompt will appear here…"></textarea>
+
+      <div id="tokenBadge">
+        <span class="badge-icon" id="badgeIcon"></span>
+        <span class="badge-label" id="badgeLabel"></span>
+        <span class="badge-delta" id="badgeDelta"></span>
+      </div>
+    </section>
+
+    <!-- Optional Groq settings -->
+    <details class="api-settings">
+      <summary>Groq API key <span class="optional-tag">Optional</span></summary>
+      <div class="api-key-group">
+        <p class="helper-text">Used for fast AI optimization. Without a key, Trail uses its local template. Your key is stored in this browser and sent to Groq when you optimize. <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer">Get a free Groq key</a></p>
+        <label for="apiKey" class="sr-label">API key</label>
+        <input type="password" id="apiKey" placeholder="Paste Groq API key here…" autocomplete="off" />
+      </div>
+    </details>
+
+    <footer>
+      <span>Trail v0.4.1</span>
+      <span>Works on ChatGPT &amp; Gemini</span>
+    </footer>
+
+  </main>
+
+  <script src="shared.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
