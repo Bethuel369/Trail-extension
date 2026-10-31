@@ -4,8 +4,24 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trail – Prompt Optimizer | A Clearer Path to Better Prompts</title>
-<meta name="description" content="Trail transforms rough, sloppy AI prompt drafts into structured, token-efficient inputs for ChatGPT, Gemini, and Claude. Free browser extension.">
+<meta name="description" content="Trail transforms rough AI prompt drafts into structured, token-efficient inputs directly inside ChatGPT and Gemini. Free, open-source browser extension.">
 <link rel="icon" href="assets/trail-mark.svg">
+<link rel="canonical" href="https://bethuel369.github.io/Trail-extension/">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://bethuel369.github.io/Trail-extension/">
+<meta property="og:title" content="Trail – Prompt Optimizer | A Clearer Path to Better Prompts">
+<meta property="og:description" content="Transforms sloppy AI prompt drafts into structured, token-efficient inputs directly inside ChatGPT and Gemini.">
+<meta property="og:image" content="https://bethuel369.github.io/Trail-extension/icons/icon-128.png">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:url" content="https://bethuel369.github.io/Trail-extension/">
+<meta name="twitter:title" content="Trail – Prompt Optimizer">
+<meta name="twitter:description" content="Transforms sloppy AI prompt drafts into structured, token-efficient inputs directly inside ChatGPT and Gemini.">
+<meta name="twitter:image" content="https://bethuel369.github.io/Trail-extension/icons/icon-128.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -84,6 +100,28 @@ h2{font-size:clamp(30px,4.5vw,52px);margin-bottom:14px;max-width:14em}
 .card h3{font-size:21px;margin-bottom:8px}
 .card p{color:var(--muted);font-size:15px;line-height:1.55}
 
+/* Product Showcase Visual Section */
+.showcase-section{background:var(--paper);border-bottom:2px solid var(--ink);padding:70px 0}
+.showcase-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:36px;align-items:center;margin-top:40px}
+.mockup-window{background:#1E162A;border:2px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:8px 8px 0 var(--ink)}
+.mockup-header{background:#2C1F3D;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08)}
+.mockup-dots{display:flex;gap:6px}
+.mockup-dot{width:11px;height:11px;border-radius:50%}
+.mockup-url{background:#160F20;color:#CDBFD7;font:500 12px var(--m);padding:4px 14px;border-radius:6px;border:1px solid rgba(255,255,255,0.1)}
+.mockup-body{padding:24px;color:var(--cream)}
+.mockup-chat-bubble{background:#2C203E;padding:14px 18px;border-radius:14px;margin-bottom:20px;font-size:14px;color:#E6D9EF}
+.mockup-input-box{background:#170F22;border:2px solid #5C3D78;border-radius:16px;padding:16px;position:relative}
+.mockup-input-text{font-size:14px;color:#FFF4E6;margin-bottom:18px}
+.mockup-button-row{display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,0.08);padding-top:12px}
+.trail-mockup-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:999px;background:#F0654B;color:#FFF;font:700 13px var(--f);box-shadow:0 0 12px rgba(240,101,75,0.4)}
+.mockup-toast{margin-top:14px;display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:8px;background:rgba(16,185,129,0.18);border:1px solid #10B981;color:#10B981;font:600 12px var(--f)}
+
+.mockup-popup-box{background:#FFFAF2;border:2px solid var(--ink);border-radius:20px;overflow:hidden;box-shadow:8px 8px 0 var(--coral)}
+.mockup-popup-header{background:linear-gradient(135deg,#EE8F7E,#F7B58C);padding:20px;border-bottom:2px solid var(--ink);color:var(--plum)}
+.mockup-popup-body{padding:20px;display:flex;flex-direction:column;gap:12px}
+.mockup-popup-step{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase}
+.mockup-popup-input{background:#FFF;border:1.5px solid var(--ink);border-radius:10px;padding:10px 14px;font-size:13px;color:var(--ink)}
+
 /* Interactive Playground */
 .playground-section{background:linear-gradient(180deg,#241A33 0%,#2F1E42 100%);color:var(--cream);position:relative}
 .playground-box{margin-top:36px;background:#1A1325;border:2px solid #583F72;border-radius:24px;padding:28px;box-shadow:0 24px 50px rgba(0,0,0,0.45)}
@@ -140,6 +178,7 @@ ol{list-style:none;padding:0;margin-top:40px;display:grid;gap:16px;counter-reset
 ol li{counter-increment:s;position:relative;padding:20px 24px 20px 80px;background:var(--paper);border:2px solid var(--ink);border-radius:20px;box-shadow:4px 4px 0 var(--ink)}
 ol li::before{content:counter(s);position:absolute;left:24px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--cream);font:800 18px var(--f)}
 code{font:13px var(--m);padding:3px 8px;border-radius:6px;background:var(--ink);color:var(--cream)}
+.dev-mode-callout{margin-top:24px;padding:16px 20px;border-radius:14px;background:rgba(255,255,255,0.7);border:1.5px solid var(--ink);font-size:14px;color:#3A2645;line-height:1.5}
 
 /* FAQ */
 details{max-width:760px;border-bottom:2px solid var(--ink);transition:background .2s}
@@ -159,7 +198,7 @@ footer img{height:38px}
 
 @media(max-width:860px){
   nav ul{display:none}
-  .grid,.demo,.pg-grid{grid-template-columns:1fr}
+  .grid,.demo,.pg-grid,.showcase-grid{grid-template-columns:1fr}
   .mid{transform:rotate(90deg);justify-self:center}
   section{padding:64px 0}
   .hero-copy{padding-top:40px}
@@ -179,6 +218,7 @@ footer img{height:38px}
       <img src="assets/trail-logo.svg" alt="Trail logo">
     </a>
     <ul>
+      <li><a href="#showcase">Product Preview</a></li>
       <li><a href="#demo">Live Demo</a></li>
       <li><a href="#how">How it Works</a></li>
       <li><a href="#features">Features</a></li>
@@ -218,24 +258,98 @@ footer img{height:38px}
   <div class="wrap hero-copy" data-speed=".14">
     <div class="pill-badge"><span class="pill-dot"></span> Open-Source Prompt Engineering Extension v0.4.1</div>
     <h1>Rough drafts in.<br><span>Sharp prompts out.</span></h1>
-    <p>Trail transforms messy, informal user thoughts into structured, token-efficient AI prompts with expert roles, concrete deliverables, and domain guardrails — directly on ChatGPT and Gemini.</p>
+    <p>Trail transforms messy, informal user thoughts into structured, token-efficient AI prompts with expert roles, concrete deliverables, and domain guardrails — directly inside ChatGPT and Gemini.</p>
     <div class="cta">
       <a class="btn btn-lg" href="trail-extension.zip" download>Download Extension (v0.4.1) <span class="arr">↓</span></a>
       <a class="btn btn-secondary btn-lg" href="#demo">Try Interactive Demo ✨</a>
       <a class="ulink" href="#install">Quick Install Guide</a>
     </div>
     <div class="note">
-      <span>🛡️ 100% Private</span> · <span>⚡ Groq AI or Zero-API Smart Engine</span> · <span>🌐 Chromium Manifest V3</span>
+      <span>🛡️ Zero Telemetry</span> · <span>⚡ Direct Groq AI or Offline Heuristic Mode</span> · <span>🌐 Chromium Manifest V3</span>
     </div>
   </div>
 </header>
+
+<!-- Visual Product Showcase Section -->
+<section class="showcase-section" id="showcase">
+  <div class="wrap">
+    <div class="pill-badge" style="background:rgba(36,26,51,0.06);border-color:var(--ink)"><span class="pill-dot"></span> See Trail in Action</div>
+    <h2>Built to fit naturally into your chat workflow</h2>
+    <p class="lead">Whether you write directly on ChatGPT and Gemini or prefer a vintage toolbar popup, Trail gives you one-click prompt restructuring.</p>
+
+    <div class="showcase-grid">
+      <!-- Mockup 1: In-Page Injection -->
+      <div class="mockup-window">
+        <div class="mockup-header">
+          <div class="mockup-dots">
+            <span class="mockup-dot" style="background:#FF5F56"></span>
+            <span class="mockup-dot" style="background:#FFBD2E"></span>
+            <span class="mockup-dot" style="background:#27C93F"></span>
+          </div>
+          <span class="mockup-url">https://chatgpt.com</span>
+          <span style="font-size:11px;color:#8E79A5">Inline Mode</span>
+        </div>
+        <div class="mockup-body">
+          <div class="mockup-chat-bubble">
+            <strong>Assistant:</strong> Ready when you are. What data science task would you like to tackle?
+          </div>
+          <div class="mockup-input-box">
+            <div class="mockup-input-text">make a script to clean missing values in pandas</div>
+            <div class="mockup-button-row">
+              <div class="trail-mockup-pill">
+                <span>⚡ Trail: Data Science ▾</span>
+              </div>
+              <span style="font-size:12px;color:#A894BE;font-family:var(--m)">One click transforms draft</span>
+            </div>
+          </div>
+          <div class="mockup-toast">
+            <span>⚡ Trail: +68 tokens (Structured deliverable applied)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mockup 2: Toolbar Popup -->
+      <div class="mockup-popup-box">
+        <div class="mockup-popup-header">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <div style="display:flex;align-items:center;gap:8px">
+              <img src="assets/trail-mark.svg" width="24" height="24" alt="">
+              <strong style="font-size:16px">Trail</strong>
+            </div>
+            <span style="font-size:11px;font-weight:700;letter-spacing:.05em">V0.4.1 · POPUP</span>
+          </div>
+          <div style="font-size:18px;font-weight:800;margin-top:10px;line-height:1.15">A clearer path<br>to better prompts.</div>
+        </div>
+        <div class="mockup-popup-body">
+          <div>
+            <span class="mockup-popup-step">01 Raw Draft</span>
+            <div class="mockup-popup-input">rate limiter middleware for express</div>
+          </div>
+          <div>
+            <span class="mockup-popup-step">02 Domain</span>
+            <div class="mockup-popup-input" style="display:flex;justify-content:space-between;align-items:center">
+              <span>Software Engineering</span>
+              <span style="color:var(--coral);font-weight:700">Optimize ↗</span>
+            </div>
+          </div>
+          <div>
+            <span class="mockup-popup-step">03 Output</span>
+            <div class="mockup-popup-input" style="font-family:var(--m);font-size:11px;line-height:1.4;background:#F5EDDE">
+              ### ROLE: Staff Systems Engineer...<br>### TASK: Design token bucket limiter...
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- Interactive Live Playground Section -->
 <section class="playground-section" id="demo">
   <div class="wrap">
     <div class="pill-badge" style="background:rgba(255,255,255,0.1);color:var(--peach);border-color:#7B589C"><span class="pill-dot"></span> Live Browser Sandbox</div>
     <h2>Test Drive Trail Right Now</h2>
-    <p class="lead">Type any raw request below (or pick a sample), select a domain, and click <b>Optimize Prompt ↗</b>. Watch Trail genuinely break down and architect your prompt.</p>
+    <p class="lead">Type any raw request below (or pick a sample), select from all 11 domains, and click <b>Optimize Prompt ↗</b>. Watch Trail genuinely break down and architect your prompt.</p>
 
     <div class="playground-box">
       <div class="pg-top">
@@ -250,6 +364,7 @@ footer img{height:38px}
             <option value="cybersecurity">🛡️ Cybersecurity</option>
             <option value="product_management">🚀 Product Management</option>
             <option value="business_strategy">💼 Business &amp; Strategy</option>
+            <option value="education_research">🎓 Education &amp; Research</option>
             <option value="creative_writing">🎨 Creative Writing</option>
             <option value="general">🌐 General / Default</option>
           </select>
@@ -259,7 +374,7 @@ footer img{height:38px}
           <button type="button" class="pg-sample-btn" data-sample="pandas">Clean Pandas NaNs</button>
           <button type="button" class="pg-sample-btn" data-sample="api">Rate Limiter API</button>
           <button type="button" class="pg-sample-btn" data-sample="finance">Portfolio VaR</button>
-          <button type="button" class="pg-sample-btn" data-sample="react">React Auth Form</button>
+          <button type="button" class="pg-sample-btn" data-sample="education">Quantum for Beginners</button>
         </div>
       </div>
 
@@ -267,15 +382,15 @@ footer img{height:38px}
         <div class="pg-panel">
           <div class="pg-panel-head">
             <span>RAW DRAFT (TYPE FREELY)</span>
-            <span id="rawTokenCounter">~10 tokens</span>
+            <span id="rawTokenCounter">~10 tokens (est.)</span>
           </div>
-          <textarea id="pgRawInput" class="pg-textarea" placeholder="Type any rough request (e.g. build a rate limiter middleware in node with redis)...">make a script to clean missing values in pandas</textarea>
+          <textarea id="pgRawInput" class="pg-textarea" placeholder="Type any rough request (e.g. make a script to clean missing values in pandas)...">make a script to clean missing values in pandas</textarea>
         </div>
 
         <div class="pg-panel">
           <div class="pg-panel-head">
             <span>OPTIMIZED STRUCTURED PROMPT</span>
-            <span id="outTokenCounter">~85 tokens</span>
+            <span id="outTokenCounter">~85 tokens (est.)</span>
           </div>
           <div id="pgOutput" class="pg-result"></div>
         </div>
@@ -288,7 +403,7 @@ footer img{height:38px}
           <span style="color:var(--coral);font-weight:700">Expand +</span>
         </summary>
         <div class="pg-api-drawer">
-          <p>By default, the sandbox uses Trail's built-in client-side Smart Compiler. If you want full generative AI rewrites, paste a free key from Groq Console. Calls are made directly from your browser to Groq's high-speed API.</p>
+          <p>By default, the sandbox uses Trail's built-in client-side Smart Heuristic Compiler. If you want full generative AI rewrites, paste a free key from Groq Console. Calls are made directly from your browser over HTTPS to Groq's API endpoint.</p>
           <div class="pg-api-row">
             <input type="password" id="pgApiKey" class="pg-api-input" placeholder="Paste Groq API key here (gsk_...)" autocomplete="off">
             <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer" class="pg-key-link">Get Free Groq Key ↗</a>
@@ -302,7 +417,7 @@ footer img{height:38px}
             <span>⚡ Token Efficiency: <b id="tokenDeltaText">+75 tokens structured for precision</b></span>
           </div>
           <div class="engine-indicator" id="engineBadge">
-            <span class="dot"></span> <span id="engineBadgeText">Trail Smart Compiler Engine</span>
+            <span class="dot"></span> <span id="engineBadgeText">Trail Smart Heuristic Compiler</span>
           </div>
         </div>
         <div style="display:flex;gap:12px;flex-wrap:wrap">
@@ -330,7 +445,7 @@ footer img{height:38px}
       <div class="card out">
         <small>Trail Optimized Prompt (Data Science Preset)</small>
 <pre>### ROLE
-Lead Data Scientist and Quantitative Python Architect with specialization in pandas & NumPy.
+Lead Data Scientist and Quantitative Python Architect with specialization in pandas &amp; NumPy.
 
 ### TASK
 Architect and implement a production-grade routine to detect, audit, and clean missing values in a pandas DataFrame.
@@ -344,7 +459,7 @@ Architect and implement a production-grade routine to detect, audit, and clean m
 - Guard against mixed dtype coercion and excessive memory overhead.</pre>
       </div>
     </div>
-    <p class="fine">💡 Tested and tuned across Groq LLaMA models, GPT-4o, and Gemini 1.5 Pro to eliminate ambiguity hallucinations.</p>
+    <p class="fine">💡 Engineered specifically for ChatGPT &amp; Gemini input formatting and Groq inference endpoints.</p>
   </div>
 </section>
 
@@ -361,28 +476,28 @@ Architect and implement a production-grade routine to detect, audit, and clean m
       </div>
       <div class="card">
         <div class="card-icon">🏔️</div>
-        <h3>Yosemite Toolbar Popup</h3>
-        <p>Work across any platform (Claude, Cursor, Copilot). Open the vintage Yosemite-styled popup, tune your prompt, and copy with single-click clipboard writing.</p>
+        <h3>Yosemite Sunset Toolbar Popup</h3>
+        <p>Work across any platform. Open the vintage Yosemite-styled popup, tune your prompt, and copy with single-click clipboard writing.</p>
       </div>
       <div class="card">
         <div class="card-icon">📊</div>
-        <h3>Live Token Estimator</h3>
-        <p>Real-time character and token delta badge visually indicates whether your prompt expanded for specificity or compressed for token economy.</p>
+        <h3>Estimated Token Counter</h3>
+        <p>Character ÷ 4 token heuristic calculates approximate token changes so you know how your prompt expanded for specificity or compressed for brevity.</p>
       </div>
       <div class="card">
         <div class="card-icon">🎯</div>
         <h3>11 Specialized Domains</h3>
-        <p>Pre-engineered expert rubrics for Software Dev, Machine Learning, Cybersecurity, Quant Finance, Product Management, and Technical Docs.</p>
+        <p>Pre-engineered expert rubrics for Software Dev, Machine Learning, Cybersecurity, Quant Finance, Education, Product Management, and Technical Docs.</p>
       </div>
       <div class="card">
         <div class="card-icon">🚀</div>
         <h3>Dual Engine Power</h3>
-        <p>Plug in a free Groq API key for blazing 500+ token/sec rewrites, or run entirely offline with Trail's intelligent local template engine.</p>
+        <p>Plug in a free Groq API key for fast cloud inference, or run entirely offline with Trail's smart local heuristic compiler.</p>
       </div>
       <div class="card">
         <div class="card-icon">🔒</div>
-        <h3>Absolute Privacy</h3>
-        <p>Zero telemetry, no user tracking, no backend database. Your API key stays in your browser and only contacts Groq on user request.</p>
+        <h3>Zero Telemetry</h3>
+        <p>No tracking scripts, no Google Analytics, no Trail servers. In local mode, everything runs on your device. When using Groq, calls go straight to api.groq.com.</p>
       </div>
     </div>
 
@@ -409,11 +524,14 @@ Architect and implement a production-grade routine to detect, audit, and clean m
   <div class="wrap">
     <div class="pill-badge" style="background:rgba(36,26,51,0.08);border-color:var(--ink)"><span class="pill-dot"></span> Chromium Manifest V3</div>
     <h2>Install Trail in 60 Seconds</h2>
-    <p class="lead" style="color:#4A2F4F">Because Trail is 100% open-source and respects user sovereignty, you can load it directly into Chrome, Edge, Brave, or Arc.</p>
+    <p class="lead" style="color:#4A2F4F">Because Trail is 100% open-source, you can load it directly into Chrome, Edge, Brave, or Arc.</p>
     
     <ol>
       <li>
-        <strong>Download &amp; Unzip:</strong> Grab <a class="ulink" href="trail-extension.zip" download>trail-extension.zip</a> and extract the folder to a permanent folder on your computer.
+        <strong>Download:</strong> Grab <a class="ulink" href="trail-extension.zip" download>trail-extension.zip</a> or check <a class="ulink" href="https://github.com/Bethuel369/Trail-extension/releases" target="_blank" rel="noopener noreferrer">GitHub Releases</a>.
+      </li>
+      <li>
+        <strong>Unzip:</strong> Extract the zip archive to a permanent folder on your machine.
       </li>
       <li>
         <strong>Open Extensions:</strong> In Chrome, navigate to <code>chrome://extensions</code> (or <code>edge://extensions</code> in Microsoft Edge).
@@ -422,12 +540,16 @@ Architect and implement a production-grade routine to detect, audit, and clean m
         <strong>Enable Developer Mode:</strong> Toggle the <b>Developer mode</b> switch in the top-right corner of the extensions page.
       </li>
       <li>
-        <strong>Load Unpacked:</strong> Click the <b>Load unpacked</b> button and select the extracted <code>trail</code> directory.
+        <strong>Load Unpacked:</strong> Click the <b>Load unpacked</b> button and select the extracted folder directly containing <code>manifest.json</code> (e.g. <code>trail</code> or <code>trail-extension</code>).
       </li>
       <li>
         <strong>Pin &amp; Optimize:</strong> Pin Trail to your browser toolbar! Open ChatGPT or Gemini to see the new button, or click the toolbar icon.
       </li>
     </ol>
+
+    <div class="dev-mode-callout">
+      <strong>⚠️ Developer Mode Notice:</strong> Chromium browsers display a standard warning banner for extensions loaded via developer mode upon browser launch. This is expected behavior for unpacked open-source extensions not loaded from the Chrome Web Store.
+    </div>
 
     <div class="cta" style="margin-top:36px">
       <a class="btn btn-lg" href="trail-extension.zip" download>Download Trail v0.4.1 (Zip) <span class="arr">↓</span></a>
@@ -447,11 +569,11 @@ Architect and implement a production-grade routine to detect, audit, and clean m
       </details>
       <details>
         <summary>Does Trail require an API key to work?</summary>
-        <p>No! Trail works right out of the box with zero setup using its built-in Local Template Engine. If you want hyper-intelligent generative rewrites powered by Groq (LLaMA-3 / GPT-OSS), you can paste a free Groq key into the settings popup.</p>
+        <p>No! Trail works right out of the box with zero setup using its built-in Smart Heuristic Compiler. If you want generative rewrites powered by Groq (LLaMA-3 / GPT-OSS), you can paste a free Groq key into the settings popup.</p>
       </details>
       <details>
         <summary>How is my privacy protected?</summary>
-        <p>Trail operates on a strict zero-telemetry policy. Your prompts are never tracked, logged, or sent to any central server. When using Groq, calls are sent directly from your browser to Groq's API endpoint.</p>
+        <p>Trail operates on a strict zero-telemetry policy with no Trail backend servers. When running offline, all parsing occurs on your machine. When using a Groq key, your prompt is sent directly from your browser to Groq's official API endpoint (api.groq.com). Your API key is stored locally in <code>chrome.storage.local</code> unencrypted within your local browser profile.</p>
       </details>
       <details>
         <summary>Which AI platforms are officially supported?</summary>
@@ -470,6 +592,7 @@ Architect and implement a production-grade routine to detect, audit, and clean m
     </div>
     <ul class="foot-links">
       <li><a href="https://github.com/Bethuel369/Trail-extension" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+      <li><a href="#showcase">Product Preview</a></li>
       <li><a href="#demo">Live Demo</a></li>
       <li><a href="#install">Installation</a></li>
       <li><a href="trail-extension.zip" download>Download</a></li>
@@ -480,7 +603,7 @@ Architect and implement a production-grade routine to detect, audit, and clean m
 
 <!-- Interactive Optimization Logic -->
 <script>
-// ── Domain Specifications & System Instructions ──────────────────────────────
+// ── All 11 Domain Specifications & System Instructions ───────────────────────
 const DOMAIN_DATA = {
   data_science: {
     label: "Data Science & Python",
@@ -570,6 +693,17 @@ const DOMAIN_DATA = {
       "Deliver clear recommendations with prioritized 30-60-90 day execution milestones"
     ]
   },
+  education_research: {
+    label: "Education & Research",
+    roleTitle: "Staff Pedagogical Architect and Academic Research Specialist",
+    instruction: "You are Trail, an education and research specialist who values clear methods and reliable evidence. Turn the raw request into a structured learning or research prompt. Output format: ### ROLE, ### TASK, ### CONSTRAINTS & CONTEXT.",
+    defaultConstraints: [
+      "Specify clear learning objectives, target learner level, and pedagogical scaffolding",
+      "Distinguish empirical evidence from subjective interpretation; cite primary source conventions",
+      "Break complex concepts down using clear analogies and graduated difficulty",
+      "Include formative assessment questions and verification rubrics"
+    ]
+  },
   creative_writing: {
     label: "Creative Writing",
     roleTitle: "Acclaimed Narrative Designer and Senior Story Architect",
@@ -596,11 +730,11 @@ const DOMAIN_DATA = {
 
 // ── Smart Client-Side Prompt Optimization Engine ─────────────────────────────
 function smartOptimize(raw, domainKey) {
-  const text = raw.trim();
+  const text = (raw || '').trim();
   if (!text) return "Please enter a draft request to optimize.";
 
   // Normalize conversational filler
-  let coreIntent = text
+  let cleanTask = text
     .replace(/^(can you please|please|could you kindly|could you|i want you to|i need you to|help me|make a|make an|create a|create an|build a|build an|write a|write an|give me a|give me|how do i|how to)\s+/i, "")
     .replace(/[?.!]+$/, "")
     .trim();
@@ -655,14 +789,12 @@ function smartOptimize(raw, domainKey) {
   }
 
   // Synthesize Action Verb
-  let cleanTask = coreIntent;
-  cleanTask = cleanTask.replace(/^(script to|function to|tool to|routine to)\s+/i, "");
-  const actionWord = cleanTask.charAt(0).toUpperCase() + cleanTask.slice(1);
+  let normalizedTask = cleanTask.replace(/^(script to|function to|tool to|routine to)\s+/i, "");
 
   // Formulate Milestone Steps
   const milestones = [
     `Analyze input parameters and validate environmental prerequisites for ${matched.length > 0 ? matched.map(m=>m.label).join("/") : "the requested deliverable"}.`,
-    `Construct the core production implementation addressing '${cleanTask}', ensuring optimal computational complexity, edge-case resilience, and clean separation of concerns.`
+    `Construct the core production implementation addressing '${normalizedTask}', ensuring optimal computational complexity, edge-case resilience, and clean separation of concerns.`
   ];
 
   if (matched.some(t => t.category === "backend" || t.category === "api")) {
@@ -675,7 +807,7 @@ function smartOptimize(raw, domainKey) {
 
   milestones.push("Provide explicit verification criteria (e.g. unit tests, benchmarking, or validation schemas) to demonstrate deterministic correctness.");
 
-  const taskBlock = `Architect and implement a robust, production-grade solution to ${cleanTask.toLowerCase()}.\n\nKey Execution Deliverables:\n` +
+  const taskBlock = `Architect and implement a robust, production-grade solution to ${normalizedTask.toLowerCase()}.\n\nKey Execution Deliverables:\n` +
     milestones.map((m, idx) => `${idx + 1}. ${m}`).join("\n");
 
   // Dynamic Constraints
@@ -757,7 +889,7 @@ function estimateTokens(str) {
 
 function updateRawTokenCounter() {
   const tokens = estimateTokens(rawInput.value);
-  rawCount.textContent = `~${tokens} tokens`;
+  rawCount.textContent = `~${tokens} tokens (est.)`;
 }
 rawInput.addEventListener("input", updateRawTokenCounter);
 
@@ -782,8 +914,7 @@ async function handleOptimize() {
       engineBadgeText.textContent = "Groq LLaMA-3.3 70B AI Engine";
       result = await requestGroq(raw, domain, apiKey);
     } else {
-      engineBadgeText.textContent = "Trail Smart Compiler Engine (Offline)";
-      // Small simulated delay for realism
+      engineBadgeText.textContent = "Trail Smart Heuristic Compiler (Offline)";
       await new Promise(r => setTimeout(r, 180));
       result = smartOptimize(raw, domain);
     }
@@ -793,15 +924,15 @@ async function handleOptimize() {
     const outTk = estimateTokens(result);
     const diff = outTk - inTk;
 
-    rawCount.textContent = `~${inTk} tokens`;
-    outCount.textContent = `~${outTk} tokens`;
+    rawCount.textContent = `~${inTk} tokens (est.)`;
+    outCount.textContent = `~${outTk} tokens (est.)`;
     deltaText.textContent = diff >= 0
-      ? `+${diff} tokens added for structure & constraints`
+      ? `+${diff} tokens structured for precision`
       : `${diff} tokens optimized`;
 
   } catch (err) {
-    pgOutput.textContent = `Optimization error: ${err.message}\n\nFalling back to Smart Compiler Engine:\n\n` + smartOptimize(raw, domain);
-    engineBadgeText.textContent = "Trail Smart Compiler Engine (Fallback)";
+    pgOutput.textContent = `Optimization error: ${err.message}\n\nFalling back to Smart Heuristic Compiler:\n\n` + smartOptimize(raw, domain);
+    engineBadgeText.textContent = "Trail Smart Heuristic Compiler (Fallback)";
   } finally {
     pgOutput.style.opacity = "1";
     runBtn.disabled = false;
@@ -819,12 +950,12 @@ rawInput.addEventListener("keydown", (e) => {
   }
 });
 
-// Domain change: does NOT erase what user wrote, just triggers re-optimization
+// Domain change triggers re-optimization
 domainSelect.addEventListener("change", () => {
   handleOptimize();
 });
 
-// Sample prompts
+// Sample prompts (includes all diverse domains)
 const samples = {
   pandas: {
     domain: "data_science",
@@ -838,9 +969,9 @@ const samples = {
     domain: "quant_finance",
     prompt: "calculate monte carlo portfolio var and expected shortfall with 10k simulations in python"
   },
-  react: {
-    domain: "software_engineering",
-    prompt: "build a responsive multi-step login and mfa form in react with tailwind and validation"
+  education: {
+    domain: "education_research",
+    prompt: "explain quantum entanglement and superpositions to high school physics students with scaffolding"
   }
 };
 

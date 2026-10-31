@@ -6,7 +6,7 @@
 
 <p align="center">
   <b>A clearer path to better prompts.</b><br>
-  Transforms messy, informal user inputs into structured, token-efficient, high-precision AI prompts right inside ChatGPT & Gemini.
+  Transforms messy, informal user inputs into structured, token-efficient, high-precision AI prompts directly inside ChatGPT & Gemini.
 </p>
 
 <p align="center">
@@ -34,7 +34,7 @@ Most people prompt AI the way they talk — casually, incompletely, and ambiguou
 
 **Trail** bridges the gap between human thought and LLM comprehension. With a single click or keyboard shortcut, it reframes your raw ideas into structured prompts consisting of:
 - 🎭 **ROLE** — Defines a hyper-specific, senior-level persona with the right technical pedigree.
-- 🎯 **TASK** — Unambiguous, imperative directive articulating the exact deliverable.
+- 🎯 **TASK** — Unambiguous, imperative directive articulating the exact deliverable and milestones.
 - 📐 **CONSTRAINTS & CONTEXT** — Format rules, libraries to prefer, and anti-patterns to avoid.
 
 ```
@@ -46,16 +46,19 @@ Most people prompt AI the way they talk — casually, incompletely, and ambiguou
                                       ▼
    ┌────────────────────────────────────────────────────────────────────────┐
    │  ### ROLE                                                              │
-   │  Senior data scientist and Python engineer, expert in pandas.          │
+   │  Lead Data Scientist and Quantitative Python Architect (pandas, NumPy) │
    │                                                                        │
    │  ### TASK                                                              │
-   │  Write a function that finds and handles missing values in a DataFrame.│
-   │  Return the cleaned DataFrame and a summary of what changed.           │
+   │  Architect and implement a production-grade routine to detect, audit,  │
+   │  and clean missing values in a pandas DataFrame.                       │
+   │  1. Quantify sparsity and column-wise null distributions.              │
+   │  2. Implement configurable imputation and conditional row dropping.    │
+   │  3. Return the sanitized DataFrame and an audit summary report.        │
    │                                                                        │
    │  ### CONSTRAINTS & CONTEXT                                             │
-   │  - Support drop, median, and forward-fill per column.                  │
-   │  - PEP 8 compliant, type hints, vectorized operations.                 │
-   │  - Handle dtype mismatches and memory footprint efficiently.           │
+   │  - Prefer vectorized operations over iterative .iterrows() loops.      │
+   │  - Enforce strict type annotations and PEP 8 compliance.               │
+   │  - Guard against mixed dtype coercion and excessive memory overhead.   │
    └────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -65,12 +68,12 @@ Most people prompt AI the way they talk — casually, incompletely, and ambiguou
 
 | Feature | Description | Highlight |
 | :--- | :--- | :---: |
-| ⚡ **Inline Page Button** | Directly injects beneath prompt boxes on `chatgpt.com` and `gemini.google.com` | No copy-pasting |
-| 🏔️ **Yosemite Toolbar UI** | Retro sunset panorama popup for use with Claude, Cursor, Copilot, etc. | Works anywhere |
+| ⚡ **Inline Page Button** | Injects directly beneath prompt boxes on `chatgpt.com` and `gemini.google.com` | Zero copy-pasting |
+| 🏔️ **Yosemite Sunset Popup** | Retro sunset panorama toolbar popup for use across any AI assistant | Works anywhere |
 | 🎯 **11 Domain Rubrics** | Presets crafted for Data Science, Software Eng, Quant Finance, SecOps & more | Expert tuning |
-| 📊 **Token Counter** | Live delta badge calculates token changes so you know prompt density | Cost aware |
-| 🚀 **Dual Engine** | Free Groq LLaMA-3 / GPT-OSS acceleration OR zero-network local templates | Instant & flexible |
-| 🔒 **100% Private** | Zero tracking, zero telemetry, no third-party analytics | Private by design |
+| 📊 **Token Estimator** | Estimated token count (~4 chars per token) comparing raw drafts with rewrites | Cost aware |
+| 🚀 **Dual Engine Power** | Fast Groq Cloud AI inference OR smart offline heuristic compiler | Flexible & instant |
+| 🔒 **Zero Telemetry** | No tracking scripts, no Google Analytics, no Trail intermediary servers | Transparent & private |
 
 ---
 
@@ -82,8 +85,8 @@ flowchart LR
     B --> C{"Domain Selected?"}
     C -->|Preset Selection| D["Domain Calibration Rules"]
     D --> E{"Groq API Key Provided?"}
-    E -->|Yes: Blazing Fast| F["Groq AI Engine<br/><i>(openai/gpt-oss-20b)</i>"]
-    E -->|No: Offline Ready| G["Local Template Engine<br/><i>(Instant Fallback)</i>"]
+    E -->|Yes: Cloud Inference| F["Groq AI Engine<br/><i>(openai/gpt-oss-20b)</i>"]
+    E -->|No: Offline Ready| G["Smart Heuristic Engine<br/><i>(Local Compiler)</i>"]
     F --> H["Structured Prompt<br/><b>ROLE · TASK · CONSTRAINTS</b>"]
     G --> H
     H --> I["Token Delta Computed"]
@@ -104,7 +107,7 @@ Trail includes 11 carefully calibrated domains out of the box:
 - 🛡️ **Cybersecurity** — OWASP Top 10, CWE mitigation, threat modeling, least privilege.
 - 🚀 **Product Management** — JTBD, user stories, discovery briefs, success KPIs.
 - 💼 **Business & Strategy** — MECE frameworks, unit economics, risk matrices.
-- 🎓 **Education & Research** — Scaffolded pedagogy, primary literature citations.
+- 🎓 **Education & Research** — Scaffolded pedagogy, primary literature conventions.
 - 🎨 **Creative Writing** — Vivid sensory anchors, emotional stakes, voice preservation.
 - 🌐 **General / Default** — All-purpose prompt structuring for daily tasks.
 
@@ -119,6 +122,7 @@ Trail is an open-source unpacked extension compatible with **Chrome**, **Brave**
   ```bash
   git clone https://github.com/Bethuel369/Trail-extension.git
   ```
+- Or check [GitHub Releases](https://github.com/Bethuel369/Trail-extension/releases) for tagged releases.
 
 ### 2️⃣ Extract
 - Unzip the archive to a permanent folder on your machine.
@@ -127,7 +131,10 @@ Trail is an open-source unpacked extension compatible with **Chrome**, **Brave**
 1. In your Chromium browser, go to `chrome://extensions` (or `edge://extensions`).
 2. Toggle on **Developer mode** in the top-right corner.
 3. Click **Load unpacked** in the top-left corner.
-4. Select the `trail` directory containing `manifest.json`.
+4. Select the folder that directly contains `manifest.json` (either `trail` if cloning the repo, or the extracted `trail-extension` folder).
+
+> [!NOTE]
+> **Developer Mode Banner:** Chromium browsers display a standard warning banner for extensions loaded via developer mode upon browser launch. This is expected behavior for unpacked open-source extensions not loaded from the Chrome Web Store.
 
 ### 4️⃣ Pin & Start Prompting!
 - Pin **Trail** to your browser toolbar.
@@ -137,12 +144,12 @@ Trail is an open-source unpacked extension compatible with **Chrome**, **Brave**
 
 ## 🔑 Groq API Setup (Optional)
 
-Trail functions completely offline using its local template engine. To enable AI-powered continuous rewrites:
+Trail functions completely offline using its local heuristic compiler. To enable generative AI rewrites:
 
 1. Grab a free API key from [Groq Console](https://console.groq.com/keys).
 2. Open the Trail popup from your browser toolbar.
 3. Expand **Groq API key** at the bottom.
-4. Paste your key and click outside. Your key is securely stored in `chrome.storage.local`.
+4. Paste your key and click outside. Your key is stored in your local browser profile (`chrome.storage.local`).
 
 ---
 
@@ -159,23 +166,26 @@ Trail - Extension/
 │   ├── background.js           # Service worker
 │   ├── content.js              # DOM injection script for ChatGPT & Gemini
 │   ├── inject.css              # Styling for inline page button
-│   ├── manifest.json           # Manifest V3 configuration
+│   ├── manifest.json           # Manifest V3 configuration (v0.4.1)
 │   ├── popup.html              # Yosemite vintage popup markup
 │   ├── popup.js                # Popup event handling & clipboard writing
-│   ├── shared.js               # Domain presets & token calculation logic
-│   └── styles.css              # Popup styling & responsive layout
+│   ├── shared.js               # Domain presets, local heuristics & token logic
+│   ├── styles.css              # Popup styling & responsive layout
+│   └── LICENSE                 # MIT License copy
 ├── index.html                  # GitHub Pages interactive showcase website
 ├── trail-extension.zip         # Pre-packaged ready-to-load extension archive
+├── LICENSE                     # MIT License
 └── README.md                   # Project documentation
 ```
 
 ---
 
-## 🛡️ Privacy Guarantee
+## 🛡️ Privacy & Security Architecture
 
-- 🚫 **No Tracking:** Zero telemetry, no Google Analytics, no tracking pixels.
-- 🔒 **Local Storage:** API keys and preferences are kept exclusively on your machine.
-- 📡 **Direct Network Calls:** When using an API key, calls go directly to `api.groq.com` with no intermediary servers.
+- 🚫 **Zero Telemetry:** No tracking pixels, no Google Analytics, no Trail analytics servers.
+- 💻 **Offline Heuristic Mode:** When running without an API key, 100% of parsing and milestone synthesis executes client-side on your device.
+- 📡 **Direct-to-API Calls:** When an optional Groq key is used, requests are sent directly over HTTPS from your browser to `api.groq.com`.
+- 🔐 **Credential Storage:** Your API key is stored unencrypted in `chrome.storage.local` within your local browser profile folder on your machine.
 
 ---
 
