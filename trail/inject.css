@@ -57,3 +57,13 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
+
+/* undo action inside the toast */
+.trail-toast.has-action { pointer-events: auto; }
+.trail-toast-undo {
+  margin-left: 6px; padding: 4px 10px; cursor: pointer;
+  color: #FFF4E6; background: #241A33; border: 2px solid #241A33; border-radius: 999px;
+  font: 700 11px/1 inherit; font-family: inherit;
+}
+.trail-toast-undo:hover { background: #F0654B; border-color: #F0654B; color: #241A33; }
+.trail-toast-undo:focus-visible { outline: 3px solid #F0654B; outline-offset: 2px; }

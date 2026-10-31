@@ -63,7 +63,7 @@ function writeInputText(el, text) {
 }
 
 // ── Toasts ──────────────────────────────────────────────────────────────────
-function showTokenToast(rawText, optimizedText) {
+function showTokenToast(rawText, optimizedText, onUndo) {
   document.querySelectorAll('.trail-toast').forEach(el => el.remove());
 
   const raw   = estimateTokens(rawText);
@@ -93,12 +93,26 @@ function showTokenToast(rawText, optimizedText) {
 
   toast.appendChild(iconEl);
   toast.appendChild(msgEl);
+
+  // Trail overwrites the chat box, so offer a way back to the original draft.
+  if (onUndo) {
+    const undo = document.createElement('button');
+    undo.type = 'button';
+    undo.className = 'trail-toast-undo';
+    undo.textContent = '↩ Undo';
+    undo.addEventListener('click', () => {
+      onUndo();
+      toast.remove();
+    });
+    toast.classList.add('has-action');
+    toast.appendChild(undo);
+  }
   document.body.appendChild(toast);
 
   setTimeout(() => {
     toast.classList.add('hiding');
     setTimeout(() => toast.remove(), 300);
-  }, 3500);
+  }, onUndo ? 9000 : 3500);
 }
 
 function showSimpleToast(msg) {
@@ -209,7 +223,10 @@ async function handleInlineOptimization(inputElement, btn) {
     if (!target) throw new Error('Chat input is no longer available.');
 
     writeInputText(target, resp.text);
-    showTokenToast(rawText, resp.text);
+    showTokenToast(rawText, resp.text, () => {
+      const t = document.contains(target) ? target : findInputElement();
+      if (t) writeInputText(t, rawText);
+    });
   } catch (err) {
     console.error('[Trail] Inline optimization error:', err);
     const msg = /context invalidated/i.test(err.message)
@@ -223,6 +240,16 @@ async function handleInlineOptimization(inputElement, btn) {
     resumeObserver();
   }
 }
+
+// ── Keyboard shortcut (Alt+Shift+T, sent from background.js) ────────────────
+try {
+  chrome.runtime.onMessage.addListener((msg) => {
+    if (!msg || msg.type !== 'TRAIL_TRIGGER') return;
+    const btn = document.getElementById(TRAIL_BTN_ID);
+    if (btn && !btn.disabled) btn.click();
+    else if (!btn) showSimpleToast('Click into the chat box first, then try again.');
+  });
+} catch (_) { /* extension context invalidated */ }
 
 // ── SPA Navigation ──────────────────────────────────────────────────────────
 // Content scripts run in an isolated world, so patching history.pushState here

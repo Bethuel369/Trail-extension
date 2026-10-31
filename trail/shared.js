@@ -251,109 +251,213 @@ function estimateTokens(text) {
 }
 
 // ── Local smart heuristic fallback (no API key) ───────────────────────────
+// Keyword table. `rx` overrides the default whole-word match where a bare word
+// is ambiguous in plain English ("go", "rest", "node", "react to", "express…").
+const TRAIL_TECH_KEYWORDS = [
+  { name: 'pandas',       category: 'python_data', label: 'pandas' },
+  { name: 'numpy',        category: 'python_data', label: 'NumPy' },
+  { name: 'scikit-learn', category: 'ml',          label: 'scikit-learn' },
+  { name: 'pytorch',      category: 'ml',          label: 'PyTorch' },
+  { name: 'tensorflow',   category: 'ml',          label: 'TensorFlow' },
+  { name: 'react',        category: 'frontend',    label: 'React',    rx: /\breact(?:\.?js)?\b(?!\s+to\b)/i },
+  { name: 'vue',          category: 'frontend',    label: 'Vue.js',   rx: /\bvue(?:\.?js)?\b/i },
+  { name: 'next.js',      category: 'frontend',    label: 'Next.js',  rx: /\bnext\.?js\b/i },
+  { name: 'tailwind',     category: 'frontend',    label: 'Tailwind CSS' },
+  { name: 'node',         category: 'backend',     label: 'Node.js',  rx: /\bnode\.?js\b/i },
+  { name: 'express',      category: 'backend',     label: 'Express',  rx: /\bexpress\.?js\b|\bexpress\s+(?:app|server|route|router|middleware|api)\b/i },
+  { name: 'fastapi',      category: 'backend',     label: 'FastAPI' },
+  { name: 'flask',        category: 'backend',     label: 'Flask' },
+  { name: 'django',       category: 'backend',     label: 'Django' },
+  { name: 'redis',        category: 'backend',     label: 'Redis' },
+  { name: 'docker',       category: 'devops',      label: 'Docker' },
+  { name: 'kubernetes',   category: 'devops',      label: 'Kubernetes' },
+  { name: 'aws',          category: 'cloud',       label: 'AWS' },
+  { name: 'sql',          category: 'db',          label: 'SQL' },
+  { name: 'postgres',     category: 'db',          label: 'PostgreSQL', rx: /\bpostgres(?:ql)?\b/i },
+  { name: 'mongodb',      category: 'db',          label: 'MongoDB' },
+  { name: 'typescript',   category: 'lang',        label: 'TypeScript' },
+  { name: 'python',       category: 'lang',        label: 'Python' },
+  { name: 'rust',         category: 'lang',        label: 'Rust',     rx: /\brust\b(?=.*\b(?:code|crate|cargo|program|script|cli|function|service|library|lib)\b)|\b(?:in|using|with)\s+rust\b/i },
+  { name: 'go',           category: 'lang',        label: 'Go',       rx: /\bgolang\b|\b(?:in|using|with)\s+go\b(?!\s+(?:to|for|back|home|ahead|out|on)\b)/i },
+  { name: 'graphql',      category: 'api',         label: 'GraphQL' },
+  { name: 'rest',         category: 'api',         label: 'RESTful API', rx: /\brest(?:ful)?\s+api\b|\brest\s+endpoint/i },
+  { name: 'auth',         category: 'security',    label: 'Authentication & Authorization', rx: /\bauth(?:entication|orization|n|z)?\b/i }
+];
+
+// Non-code domains get a task skeleton that fits the field instead of the
+// software-flavoured one. Code-like domains use the technology-aware path below.
+const TRAIL_FALLBACK_PROFILES = {
+  general: {
+    role: 'Senior generalist assistant',
+    steps: [
+      'Restate the goal in one line and list any assumptions you must make.',
+      'Deliver the result in the most directly usable format.',
+      'Flag missing information that would change the answer.'
+    ],
+    constraints: [
+      'Be direct and specific; no preamble or closing filler.',
+      'Prefer bullet lists and numbered steps over prose.',
+      'Ask for clarification only if the task cannot be completed without it.'
+    ]
+  },
+  cybersecurity: {
+    role: 'Application security engineer and security analyst',
+    steps: [
+      'State the authorized system, scope and assumptions.',
+      'Analyze risks or findings, with severity and rationale.',
+      'Provide remediation guidance and safe validation steps.'
+    ],
+    constraints: [
+      'Defensive focus; stay inside the stated, authorized scope.',
+      'Never assume access or permission that was not provided.',
+      'Reference relevant standards (e.g. OWASP, CWE) where applicable.'
+    ]
+  },
+  product_management: {
+    role: 'Product manager and product discovery partner',
+    steps: [
+      'Define the user problem, target users and desired outcome.',
+      'Produce the requested deliverable (brief, user stories, roadmap or experiment plan).',
+      'List assumptions, risks and success metrics.'
+    ],
+    constraints: [
+      'Separate evidence from hypotheses.',
+      'Call out missing information.',
+      'Keep the format concise and scannable.'
+    ]
+  },
+  business_strategy: {
+    role: 'Business strategy analyst',
+    steps: [
+      'Frame the decision, the decision owner and the time horizon.',
+      'Compare options with costs, risks and trade-offs.',
+      'Recommend a course of action with concrete next steps.'
+    ],
+    constraints: [
+      'State assumptions; separate known facts from estimates.',
+      'Quantify where possible.',
+      'Flag the data needed to validate the recommendation.'
+    ]
+  },
+  education_research: {
+    role: 'Educator and research assistant',
+    steps: [
+      'Identify the audience level and the learning or research objective.',
+      'Deliver the explanation, plan or analysis in clear, structured steps.',
+      'Include examples and a way to check understanding or verify claims.'
+    ],
+    constraints: [
+      'Distinguish established findings from interpretation.',
+      'Do not invent sources or results.',
+      'Use language suited to the audience.'
+    ]
+  },
+  creative_writing: {
+    role: 'Creative writing editor and story partner',
+    steps: [
+      'Settle form, tone, point of view and audience.',
+      'Draft the requested piece with concrete sensory detail and a natural voice.',
+      'Preserve any story facts or characters already provided.'
+    ],
+    constraints: [
+      'Avoid clichés.',
+      'Match the requested length and genre.',
+      'No preamble or commentary outside the piece itself.'
+    ]
+  },
+  technical_writing: {
+    role: 'Technical writer and developer advocate',
+    steps: [
+      'Identify the audience level and what needs documenting.',
+      'Write the document in the right Diátaxis mode (tutorial, how-to, reference or explanation).',
+      'Include code examples, parameter tables and error cases where relevant.'
+    ],
+    constraints: [
+      'Precise, professional tone; no marketing language.',
+      'Ready-to-publish output with no meta-commentary.',
+      'Define jargon the first time it appears.'
+    ]
+  }
+};
+
+const TRAIL_CODE_DOMAINS = ['data_science', 'software_engineering', 'machine_learning', 'quant_finance'];
+
+function detectTech(text) {
+  const matched = [];
+  for (const t of TRAIL_TECH_KEYWORDS) {
+    const rx = t.rx || new RegExp(`\\b${t.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+    if (rx.test(text)) matched.push(t);
+  }
+  return matched;
+}
+
 function buildFallbackPrompt(raw, domainKey) {
   const text = (raw || '').trim();
   if (!text) return '';
 
-  const preset = DOMAIN_PRESETS[domainKey] || DOMAIN_PRESETS.general;
+  const preset  = DOMAIN_PRESETS[domainKey] || DOMAIN_PRESETS.general;
+  const matched = detectTech(text);
+  const techList = matched.map(m => m.label);
 
-  // Clean conversational filler
-  let cleanTask = text
-    .replace(/^(can you please|please|could you kindly|could you|i want you to|i need you to|help me|make a|make an|create a|create an|build a|build an|write a|write an|give me a|give me|how do i|how to)\s+/i, '')
-    .replace(/[?.!]+$/, '')
+  // Strip only polite filler; keep the user's verb and casing intact.
+  const task = text
+    .replace(/^(?:hey|hi|hello)[,!\s]+/i, '')
+    .replace(/^(?:can|could|would) you (?:please |kindly )?/i, '')
+    .replace(/^(?:please|kindly)\s+/i, '')
+    .replace(/^(?:i want you to|i need you to|i'd like you to|help me (?:to )?)\s*/i, '')
+    .replace(/[?]+$/, '')
     .trim();
+  const taskLine = task ? task.charAt(0).toUpperCase() + task.slice(1) : text;
 
-  // Detect key technologies
-  const techKeywords = [
-    { name: 'pandas', category: 'python_data', label: 'pandas' },
-    { name: 'numpy', category: 'python_data', label: 'NumPy' },
-    { name: 'scikit-learn', category: 'ml', label: 'scikit-learn' },
-    { name: 'pytorch', category: 'ml', label: 'PyTorch' },
-    { name: 'tensorflow', category: 'ml', label: 'TensorFlow' },
-    { name: 'react', category: 'frontend', label: 'React' },
-    { name: 'vue', category: 'frontend', label: 'Vue.js' },
-    { name: 'next.js', category: 'frontend', label: 'Next.js' },
-    { name: 'tailwind', category: 'frontend', label: 'Tailwind CSS' },
-    { name: 'node', category: 'backend', label: 'Node.js' },
-    { name: 'express', category: 'backend', label: 'Express' },
-    { name: 'fastapi', category: 'backend', label: 'FastAPI' },
-    { name: 'flask', category: 'backend', label: 'Flask' },
-    { name: 'django', category: 'backend', label: 'Django' },
-    { name: 'redis', category: 'backend', label: 'Redis' },
-    { name: 'docker', category: 'devops', label: 'Docker' },
-    { name: 'kubernetes', category: 'devops', label: 'Kubernetes' },
-    { name: 'aws', category: 'cloud', label: 'AWS' },
-    { name: 'sql', category: 'db', label: 'SQL' },
-    { name: 'postgres', category: 'db', label: 'PostgreSQL' },
-    { name: 'mongodb', category: 'db', label: 'MongoDB' },
-    { name: 'typescript', category: 'lang', label: 'TypeScript' },
-    { name: 'python', category: 'lang', label: 'Python' },
-    { name: 'rust', category: 'lang', label: 'Rust' },
-    { name: 'go', category: 'lang', label: 'Go' },
-    { name: 'graphql', category: 'api', label: 'GraphQL' },
-    { name: 'rest', category: 'api', label: 'RESTful API' },
-    { name: 'auth', category: 'security', label: 'Authentication & Authorization' }
-  ];
+  const codeLike = TRAIL_CODE_DOMAINS.includes(domainKey) ||
+                   (domainKey === 'general' && matched.length > 0);
 
-  const matched = [];
-  const lower = text.toLowerCase();
-  for (const t of techKeywords) {
-    const rx = new RegExp(`\\b${t.name}\\b`, 'i');
-    if (rx.test(lower) && !matched.some(m => m.name === t.name)) {
-      matched.push(t);
-    }
+  // ── Non-code path ──
+  if (!codeLike) {
+    const profile = TRAIL_FALLBACK_PROFILES[domainKey] || TRAIL_FALLBACK_PROFILES.general;
+    const role = techList.length ? `${profile.role}, familiar with ${techList.join(', ')}` : profile.role;
+    return `### ROLE\n${role}.\n\n### TASK\n${taskLine}\n\nKey deliverables:\n${profile.steps.map((s, i) => `${i + 1}. ${s}`).join('\n')}\n\n### CONSTRAINTS & CONTEXT\n${profile.constraints.map(c => `- ${c}`).join('\n')}`;
   }
 
-  // Synthesize Role
+  // ── Code path ──
   let role = `Expert specialist in ${preset.label}`;
-  if (matched.length > 0) {
-    role += ` with deep specialization in ${matched.map(m => m.label).join(', ')}`;
-  }
+  if (techList.length) role += ` with deep specialization in ${techList.join(', ')}`;
 
-  // Synthesize Task milestones
-  const normalizedTask = cleanTask.replace(/^(script to|function to|tool to|routine to)\s+/i, '');
+  const target = techList.length ? techList.join('/') : 'the requested deliverable';
   const milestones = [
-    `Validate input boundaries and environment prerequisites for ${matched.length > 0 ? matched.map(m => m.label).join('/') : 'the requested deliverable'}.`,
-    `Construct the core implementation addressing '${normalizedTask}', ensuring modularity, edge-case resilience, and optimal efficiency.`
+    `Confirm input boundaries and environment prerequisites for ${target}.`,
+    'Implement the core solution with modularity, edge-case resilience and sensible efficiency.'
   ];
 
-  if (matched.some(t => t.category === 'backend' || t.category === 'api')) {
-    milestones.push('Implement defensive error handling, boundary validation, and clear status/response contracts.');
-  } else if (matched.some(t => t.category === 'python_data' || t.category === 'ml')) {
-    milestones.push('Handle matrix/DataFrame sparsity, NaN propagation, dtype coercion, and memory footprints.');
-  } else if (matched.some(t => t.category === 'frontend')) {
-    milestones.push('Ensure responsive rendering, accessibility (WCAG), and clean component encapsulation.');
+  const has = (cat) => matched.some(t => t.category === cat);
+  if (has('backend') || has('api')) {
+    milestones.push('Add defensive error handling, boundary validation and clear status/response contracts.');
+  } else if (has('python_data') || has('ml')) {
+    milestones.push('Handle missing values, dtype coercion and memory footprint.');
+  } else if (has('frontend')) {
+    milestones.push('Ensure responsive rendering, accessibility (WCAG) and clean component boundaries.');
   }
-  milestones.push('Provide verification criteria (unit tests, benchmarks, or input/output examples) to verify correctness.');
+  milestones.push('Provide verification: unit tests, benchmarks or input/output examples.');
 
-  // Context & Constraints
   const constraints = [
-    'Provide direct, production-ready output with zero conversational preamble.',
-    'Skip polite filler words to maximize token economy and reasoning focus.',
+    'Provide direct, production-ready output with no conversational preamble.',
+    'Skip filler to keep the response token-efficient.',
     'Use structured formatting (bullet lists, code blocks with language tags) where applicable.'
   ];
+  const hasName = (n) => matched.some(t => t.name === n);
+  if (hasName('pandas'))  constraints.push('Prefer vectorized operations over .iterrows(); keep memory use low (e.g. downcasting).');
+  if (hasName('react'))   constraints.push('Use modern functional components, standard hooks and strict prop typing.');
+  if (hasName('redis'))   constraints.push('Ensure atomic execution (Lua scripting or pipelines) to prevent race conditions.');
+  if (hasName('auth'))    constraints.push('Follow least privilege; never log or expose credentials or tokens.');
 
-  if (matched.some(t => t.name === 'pandas')) {
-    constraints.push('Prioritize vectorized operations over iterative loops (.iterrows()); ensure memory efficiency with downcasting.');
-  }
-  if (matched.some(t => t.name === 'react')) {
-    constraints.push('Use modern functional components, standard hooks, and strict prop typing.');
-  }
-  if (matched.some(t => t.name === 'redis')) {
-    constraints.push('Ensure atomic execution (Lua scripting or pipeline transactions) to prevent race conditions.');
-  }
+  return `### ROLE\n${role}.\n\n### TASK\n${taskLine}\n\nKey deliverables:\n${milestones.map((m, i) => `${i + 1}. ${m}`).join('\n')}\n\n### CONSTRAINTS & CONTEXT\n${constraints.map(c => `- ${c}`).join('\n')}`;
+}
 
-  return `### ROLE
-${role}.
-
-### TASK
-Architect and implement a robust, production-grade solution to ${normalizedTask.toLowerCase()}.
-
-Key Execution Deliverables:
-${milestones.map((m, idx) => `${idx + 1}. ${m}`).join('\n')}
-
-### CONSTRAINTS & CONTEXT
-${constraints.map(c => `- ${c}`).join('\n')}`;
+// Models sometimes wrap the whole answer in a ``` fence; unwrap it.
+function cleanModelOutput(text) {
+  const out = (text || '').trim();
+  const fenced = out.match(/^```[\w-]*\n([\s\S]*?)\n```$/);
+  return fenced ? fenced[1].trim() : out;
 }
 
 // ── Groq request ────────────────────────────────────────────────────────────
@@ -407,7 +511,7 @@ async function requestGroq(rawInput, domainKey, apiKey) {
 
   const data = await response.json();
   const choice = data?.choices?.[0];
-  const text = choice?.message?.content?.trim();
+  const text = cleanModelOutput(choice?.message?.content);
   if (!text) {
     throw new Error(
       choice?.finish_reason === 'length'

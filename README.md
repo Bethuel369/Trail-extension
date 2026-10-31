@@ -11,7 +11,7 @@
 
 <p align="center">
   <a href="https://bethuel369.github.io/Trail-extension/"><img src="https://img.shields.io/badge/🌐_Live_Website-GitHub_Pages-F0654B?style=for-the-badge&logo=githubpages&logoColor=white" alt="Live Demo on GitHub Pages"></a>
-  <a href="https://github.com/Bethuel369/Trail-extension"><img src="https://img.shields.io/badge/Version-v0.4.1-241A33?style=for-the-badge&logo=git&logoColor=white" alt="Version 0.4.1"></a>
+  <a href="https://github.com/Bethuel369/Trail-extension"><img src="https://img.shields.io/badge/Version-v0.5.0-241A33?style=for-the-badge&logo=git&logoColor=white" alt="Version 0.5.0"></a>
   <a href="trail-extension.zip"><img src="https://img.shields.io/badge/Download-Extension.zip-FFC9A0?style=for-the-badge&logo=googlechrome&logoColor=241A33" alt="Download Zip"></a>
   <a href="#license"><img src="https://img.shields.io/badge/License-MIT-10B981?style=for-the-badge" alt="License MIT"></a>
 </p>
@@ -32,7 +32,7 @@
 
 Most people prompt AI the way they talk — casually, incompletely, and ambiguously. This causes Large Language Models to make assumptions, produce generic answers, or hallucinate.
 
-**Trail** bridges the gap between human thought and LLM comprehension. With a single click or keyboard shortcut, it reframes your raw ideas into structured prompts consisting of:
+**Trail** bridges the gap between human thought and LLM comprehension. With a single click or **Alt+Shift+T**, it reframes your raw ideas into structured prompts consisting of:
 - 🎭 **ROLE** — Defines a hyper-specific, senior-level persona with the right technical pedigree.
 - 🎯 **TASK** — Unambiguous, imperative directive articulating the exact deliverable and milestones.
 - 📐 **CONSTRAINTS & CONTEXT** — Format rules, libraries to prefer, and anti-patterns to avoid.
@@ -139,6 +139,8 @@ Trail is an open-source unpacked extension compatible with **Chrome**, **Brave**
 ### 4️⃣ Pin & Start Prompting!
 - Pin **Trail** to your browser toolbar.
 - Visit [ChatGPT](https://chatgpt.com) or [Gemini](https://gemini.google.com) to see the Trail button appear directly beneath the chat box!
+- Prefer the keyboard? Click into the chat box and press **Alt+Shift+T** (rebind it at `chrome://extensions/shortcuts`).
+- Don't like the rewrite? Hit **Undo** in the toast to restore your original draft.
 
 ---
 
@@ -163,10 +165,10 @@ Trail - Extension/
 │   └── trail-logo-light.svg    # Brand lockup (light)
 ├── trail/                      # Chrome Extension source code (Manifest V3)
 │   ├── icons/                  # High-res extension icons (16, 32, 48, 128px)
-│   ├── background.js           # Service worker
+│   ├── background.js           # Service worker (Groq requests + keyboard shortcut)
 │   ├── content.js              # DOM injection script for ChatGPT & Gemini
 │   ├── inject.css              # Styling for inline page button
-│   ├── manifest.json           # Manifest V3 configuration (v0.4.1)
+│   ├── manifest.json           # Manifest V3 configuration (v0.5.0)
 │   ├── popup.html              # Yosemite vintage popup markup
 │   ├── popup.js                # Popup event handling & clipboard writing
 │   ├── shared.js               # Domain presets, local heuristics & token logic

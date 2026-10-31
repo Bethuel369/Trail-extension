@@ -24,3 +24,14 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
   return true; // keep the channel open for the async response
 });
+
+// Keyboard shortcut (see "commands" in manifest.json): tell the active tab's
+// content script to run the same action as clicking the inline button.
+chrome.commands.onCommand.addListener(async (command) => {
+  if (command !== 'optimize-prompt') return;
+  const [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
+  if (!tab || !tab.id) return;
+  try {
+    await chrome.tabs.sendMessage(tab.id, { type: 'TRAIL_TRIGGER' });
+  } catch (_) { /* not a ChatGPT / Gemini tab, or the page has not loaded Trail */ }
+});

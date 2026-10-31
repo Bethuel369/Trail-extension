@@ -54,9 +54,28 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ── Persist API key on change ───────────────────────────────────────────────
-document.getElementById('apiKey').addEventListener('change', (e) => {
-  chrome.storage.local.set({ trail_groq_api_key: e.target.value.trim() });
+// Save on `input` as well as `change`: the popup closes on outside click and
+// `change` only fires on blur, so a pasted key could otherwise be lost.
+['input', 'change'].forEach((evt) => {
+  document.getElementById('apiKey').addEventListener(evt, (e) => {
+    chrome.storage.local.set({ trail_groq_api_key: e.target.value.trim() });
+  });
 });
+
+// ── Keep the draft if the popup closes (session-only, cleared with the browser)
+const draftEl = document.getElementById('rawPrompt');
+let draftTimer;
+draftEl.addEventListener('input', () => {
+  clearTimeout(draftTimer);
+  draftTimer = setTimeout(() => {
+    try { chrome.storage.session.set({ trail_draft: draftEl.value }); } catch (_) { /* unsupported */ }
+  }, 300);
+});
+try {
+  chrome.storage.session.get(['trail_draft'], (r) => {
+    if (r && r.trail_draft && !draftEl.value) draftEl.value = r.trail_draft;
+  });
+} catch (_) { /* unsupported */ }
 
 // ── Persist selected domain on change ──────────────────────────────────────
 document.getElementById('domainSelect').addEventListener('change', (e) => {
