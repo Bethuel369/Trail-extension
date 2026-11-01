@@ -40,6 +40,10 @@
       "matches": [
         "https://chatgpt.com/*",
         "https://gemini.google.com/*"
+        "https://claude.com/*"
+        "https://grok.com/*"
+        "https://www.deepseek.com/*"
+        "https://perplexity.com/*"
       ],
       "js": [
         "shared.js",
